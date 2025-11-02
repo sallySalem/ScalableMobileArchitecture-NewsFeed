@@ -1,0 +1,13 @@
+# Android
+/android-app/.gradle
+/android-app/build
+/android-app/.idea
+/android-app/local.properties
+
+# Node / Express
+/mock-backend/node_modules
+/mock-backend/.env
+
+# OS
+.DS_Store
+Thumbs.db
