@@ -1,4 +1,4 @@
-package com.memoryleak.newsfeedapp.ui.theme
+package com.example.newsfeedapp.ui.theme
 
 import android.app.Activity
 import android.os.Build

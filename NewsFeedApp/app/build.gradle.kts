@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.memoryleak.newsfeedapp"
+    namespace = "com.example.newsfeedapp"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.memoryleak.newsfeedapp"
+        applicationId = "com.example.newsfeedapp"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
