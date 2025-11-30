@@ -2,6 +2,7 @@ package com.example.newsfeedapp.data.di
 
 
 import com.example.newsfeedapp.data.remote.api.PostService
+import com.example.newsfeedapp.data.remote.interceptor.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +17,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "https://localhost/"
+//    private const val BASE_URL = "http://localhost:3000/api/"
+private const val BASE_URL = "http://10.0.2.2:3000/api/"
+
 
     @Provides
     @Singleton
@@ -42,6 +45,7 @@ object NetworkModule {
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(AuthInterceptor())
             .build()
     }
 
