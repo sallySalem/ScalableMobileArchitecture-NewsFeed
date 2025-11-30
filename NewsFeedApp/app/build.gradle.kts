@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.newsfeedapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -53,12 +53,14 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.media3.exoplayer)
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.media3.ui)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 

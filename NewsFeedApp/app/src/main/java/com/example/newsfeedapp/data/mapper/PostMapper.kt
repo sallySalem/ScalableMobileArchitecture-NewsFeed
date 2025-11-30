@@ -3,6 +3,7 @@ package com.example.newsfeedapp.data.mapper
 import com.example.newsfeedapp.data.remote.dto.AttachmentDto
 import com.example.newsfeedapp.data.remote.dto.AuthorPreviewDto
 import com.example.newsfeedapp.data.remote.dto.PostDetailDto
+import com.example.newsfeedapp.data.remote.dto.toAttachmentType
 import com.example.newsfeedapp.domain.model.Attachment
 import com.example.newsfeedapp.domain.model.AuthorPreview
 import com.example.newsfeedapp.domain.model.PostDetail
@@ -31,7 +32,7 @@ fun AuthorPreviewDto.toDomain(): AuthorPreview {
 fun AttachmentDto.toDomain(): Attachment {
     return Attachment(
         id = id,
-        type = type,
+        type = type.toAttachmentType(),
         contentUrl = contentUrl,
         previewImageUrl = previewImageUrl,
         caption = caption

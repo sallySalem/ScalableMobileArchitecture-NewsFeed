@@ -1,7 +1,9 @@
 package com.example.newsfeedapp.data.remote.dto
 
+import com.example.newsfeedapp.domain.model.AttachmentType
+
 data class PostDetailApiResponse(
-val post: PostDetailDto
+    val post: PostDetailDto
 )
 
 data class PostDetailDto(
@@ -28,3 +30,11 @@ data class AttachmentDto(
     val previewImageUrl: String?,
     val caption: String?
 )
+
+fun String.toAttachmentType(): AttachmentType {
+    return when (this.uppercase()) {
+        "VIDEO" -> AttachmentType.VIDEO
+        "IMAGE" -> AttachmentType.IMAGE
+        else -> AttachmentType.UNKNOWN
+    }
+}

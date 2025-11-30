@@ -30,7 +30,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.newsfeedapp.domain.model.Attachment
+import com.example.newsfeedapp.domain.model.AttachmentType
+import com.example.newsfeedapp.domain.model.AuthorPreview
 import com.example.newsfeedapp.domain.model.PostDetail
+import com.example.newsfeedapp.ui.util.SimpleDateFormatter
+import com.example.newsfeedapp.ui.util.VideoPlayer
 
 @Composable
 fun PostDetailContent(
@@ -40,61 +45,132 @@ fun PostDetailContent(
     onBack: () -> Unit
 ) {
     Column(
-        Modifier.fillMaxSize().padding(16.dp)
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-            }
-
-            Row {
-                IconButton(onClick = onLikeClick) {
-                    Icon(
-                        imageVector = if (post.liked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = "Like",
-                        tint = if (post.liked) Color.Red else Color.Gray
-                    )
-                }
-
-                IconButton(onClick = onShareClick) {
-                    Icon(Icons.Default.Share, contentDescription = "Share")
-                }
-            }
-        }
-
+        PostDetailTopBar(onBack, onLikeClick, onShareClick, post.liked)
+        Spacer(Modifier.height(4.dp))
+        PostStats(post.likedCount, post.shareCount)
+        Spacer(Modifier.height(4.dp))
+        PostTimestamp(post.createdAt)
+        Spacer(Modifier.height(28.dp))
+        AuthorInfo(post.author)
         Spacer(Modifier.height(16.dp))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            AsyncImage(
-                model = post.author.avatarUrl,
-                contentDescription = "Avatar",
-                modifier = Modifier.size(48.dp).clip(CircleShape)
-            )
-
-            Spacer(Modifier.width(12.dp))
-
-            Text(
-                text = post.author.name,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Spacer(Modifier.height(16.dp))
-
-        Text(
-            text = post.content,
-            fontSize = 16.sp,
-            modifier = Modifier.fillMaxWidth()
-        )
-
+        PostContent(post.content)
         Spacer(Modifier.height(20.dp))
+        post.attachments.firstOrNull()?.let { AttachmentContent(it) }
+    }
+}
 
-        post.attachments.firstOrNull()?.let { attachment ->
+@Composable
+private fun PostDetailTopBar(
+    onBack: () -> Unit,
+    onLikeClick: () -> Unit,
+    onShareClick: () -> Unit,
+    liked: Boolean
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        IconButton(onClick = onBack) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+        }
+        Row {
+            IconButton(onClick = onLikeClick) {
+                Icon(
+                    imageVector = if (liked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Like",
+                    tint = if (liked) Color.Red else Color.Gray
+                )
+            }
+            IconButton(onClick = onShareClick) {
+                Icon(Icons.Default.Share, contentDescription = "Share")
+            }
+        }
+    }
+}
+
+@Composable
+private fun PostStats(likedCount: Int, shareCount: Int) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 12.dp)
+    ) {
+        Text(
+            text = "$likedCount likes",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.Gray
+        )
+        Spacer(Modifier.width(16.dp))
+        Text(
+            text = "$shareCount shares",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.Gray
+        )
+    }
+}
+
+@Composable
+private fun PostTimestamp(createdAt: String) {
+    Text(
+        text = SimpleDateFormatter.formatDateTime(createdAt),
+        fontSize = 14.sp,
+        color = Color.Gray,
+        modifier = Modifier.padding(start = 12.dp)
+    )
+}
+
+@Composable
+private fun AuthorInfo(author: AuthorPreview) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        AsyncImage(
+            model = author.avatarUrl,
+            contentDescription = "Avatar",
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+        )
+        Spacer(Modifier.width(12.dp))
+        Text(
+            text = author.name,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun PostContent(content: String) {
+    Text(
+        text = content,
+        fontSize = 16.sp,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun AttachmentContent(attachment: Attachment) {
+    when (attachment.type) {
+        AttachmentType.VIDEO -> {
+            VideoPlayer(
+                url = attachment.contentUrl,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(220.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            )
+        }
+
+        AttachmentType.IMAGE -> {
             AsyncImage(
                 model = attachment.contentUrl,
-                contentDescription = "null",
+                contentDescription = attachment.caption,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp)
@@ -102,5 +178,7 @@ fun PostDetailContent(
                 contentScale = ContentScale.Crop
             )
         }
+
+        AttachmentType.UNKNOWN -> {}
     }
 }

@@ -1,5 +1,11 @@
 package com.example.newsfeedapp.domain.model
 
+enum class AttachmentType {
+    VIDEO,
+    IMAGE,
+    UNKNOWN
+}
+
 data class PostDetail(
     val postId: Long,
     val content: String,
@@ -19,7 +25,7 @@ data class AuthorPreview(
 
 data class Attachment(
     val id: Long,
-    val type: String,
+    val type: AttachmentType,
     val contentUrl: String,
     val previewImageUrl: String?,
     val caption: String?
