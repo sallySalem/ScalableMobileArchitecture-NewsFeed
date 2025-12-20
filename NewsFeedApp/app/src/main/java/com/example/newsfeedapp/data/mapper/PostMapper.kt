@@ -8,7 +8,9 @@ import com.example.newsfeedapp.domain.model.Attachment
 import com.example.newsfeedapp.domain.model.AuthorPreview
 import com.example.newsfeedapp.domain.model.PostDetail
 
-fun PostDetailDto.toDomain(): PostDetail {
+private inline fun <T, R> Iterable<T>?.mapOrEmpty(transform: (T) -> R): List<R> = this?.map(transform).orEmpty()
+
+internal fun PostDetailDto.toDomain(): PostDetail {
     return PostDetail(
         postId = postId,
         content = content,
@@ -17,11 +19,11 @@ fun PostDetailDto.toDomain(): PostDetail {
         liked = liked,
         likedCount = likedCount,
         shareCount = shareCount,
-        attachments = attachments.map { it.toDomain() }
+        attachments = attachments.mapOrEmpty(AttachmentDto::toDomain)
     )
 }
 
-fun AuthorPreviewDto.toDomain(): AuthorPreview {
+internal fun AuthorPreviewDto.toDomain(): AuthorPreview {
     return AuthorPreview(
         id = id,
         name = name,
@@ -29,7 +31,7 @@ fun AuthorPreviewDto.toDomain(): AuthorPreview {
     )
 }
 
-fun AttachmentDto.toDomain(): Attachment {
+internal fun AttachmentDto.toDomain(): Attachment {
     return Attachment(
         id = id,
         type = type.toAttachmentType(),

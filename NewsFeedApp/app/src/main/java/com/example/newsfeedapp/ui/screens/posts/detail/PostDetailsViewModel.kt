@@ -7,14 +7,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.newsfeedapp.domain.model.PostDetail
-import com.example.newsfeedapp.domain.repository.PostRepository
+import com.example.newsfeedapp.domain.model.Resource
+import com.example.newsfeedapp.domain.usecase.GetPostDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PostDetailsViewModel @Inject constructor(
-    private val repository: PostRepository,
+    private val getPostDetailUseCase: GetPostDetailUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -31,18 +32,23 @@ class PostDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true)
 
-            try {
-                val post = repository.getPostDetail(postId)
-                uiState = uiState.copy(
-                    isLoading = false,
-                    post = post,
-                    error = null
-                )
-            } catch (e: Exception) {
-                uiState = uiState.copy(
-                    isLoading = false,
-                    error = e.message
-                )
+            when (val res = getPostDetailUseCase(postId)) {
+                is Resource.Success -> {
+                    uiState = uiState.copy(
+                        isLoading = false,
+                        post = res.data,
+                        error = null
+                    )
+                }
+                is Resource.Error -> {
+                    uiState = uiState.copy(
+                        isLoading = false,
+                        error = res.message
+                    )
+                }
+                is Resource.Loading -> {
+                    uiState = uiState.copy(isLoading = true)
+                }
             }
         }
     }
