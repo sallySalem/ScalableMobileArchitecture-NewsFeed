@@ -21,7 +21,7 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPosts(page: Int, limit: Int): List<PostDetail> {
-        val list = api.getPosts(page = page, limit = limit)
+        val list = api.getPosts(page = page, limit = limit).posts
         return list.mapNotNull { dto ->
             try { dto.toDomain() } catch (e: Exception) { Log.e("PostRepositoryImpl", "Error mapping post dto", e); null }
         }
