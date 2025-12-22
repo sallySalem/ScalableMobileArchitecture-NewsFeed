@@ -24,10 +24,11 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.newsfeedapp.domain.model.PostDetail
+import com.example.newsfeedapp.domain.model.AttachmentType
 
 @Composable
 fun PostItem(
@@ -53,7 +54,7 @@ fun PostItem(
 
         Spacer(Modifier.width(12.dp))
 
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.weight(1f)) {
 
             Text(
                 text = post.content,
@@ -64,49 +65,62 @@ fun PostItem(
 
             Spacer(Modifier.height(6.dp))
 
+            Spacer(Modifier.height(6.dp))
+
             Row(verticalAlignment = Alignment.CenterVertically) {
 
                 // LIKE
                 Icon(
                     imageVector = if (post.liked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Like",
-                    tint = if (post.liked) Color.Red else Color.Gray,
+                    tint = if (post.liked) androidx.compose.ui.graphics.Color.Red else androidx.compose.ui.graphics.Color.Gray,
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = "${post.likedCount}",
                     fontSize = 12.sp,
-                    color = Color.Gray
+                    color = androidx.compose.ui.graphics.Color.Gray
                 )
 
                 Spacer(Modifier.width(16.dp))
 
-
                 Icon(
                     imageVector = Icons.Default.Share,
                     contentDescription = "Share",
-                    tint = Color.Gray,
+                    tint = androidx.compose.ui.graphics.Color.Gray,
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = "${post.shareCount}",
                     fontSize = 12.sp,
-                    color = Color.Gray
+                    color = androidx.compose.ui.graphics.Color.Gray
                 )
             }
         }
 
-
+        // Show a single icon on the right for IMAGE or VIDEO; do not show anything for UNKNOWN
         if (post.attachments.isNotEmpty()) {
-            Spacer(Modifier.width(8.dp))
-            Icon(
-                imageVector = Icons.Default.Image,
-                contentDescription = "Attachment",
-                tint = Color(0xFFFFA500), // orange color as in your mock
-                modifier = Modifier.size(24.dp)
-            )
+            val first = post.attachments.first()
+            val icon = when (first.type) {
+                AttachmentType.IMAGE -> Icons.Default.Image
+                AttachmentType.VIDEO -> Icons.Default.Videocam
+                AttachmentType.UNKNOWN -> null
+            }
+
+            if (icon != null) {
+                Spacer(Modifier.width(8.dp))
+                Icon(
+                    imageVector = icon,
+                    contentDescription = when (first.type) {
+                        AttachmentType.IMAGE -> "Image"
+                        AttachmentType.VIDEO -> "Video"
+                        else -> null
+                    },
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }
 }

@@ -17,5 +17,5 @@ interface PostService {
     suspend fun getPosts(
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 10
-    ): List<PostDetailDto>
+    ): List<PostDetailDto> // TODO: Change to PostListApiResponse when pagination is implemented and also implement new model after update backend for preview model.
 }
