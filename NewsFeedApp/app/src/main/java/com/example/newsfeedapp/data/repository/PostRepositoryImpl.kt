@@ -1,5 +1,6 @@
 package com.example.newsfeedapp.data.repository
 
+import android.util.Log
 import com.example.newsfeedapp.data.mapper.toDomain
 import com.example.newsfeedapp.data.remote.api.PostService
 import com.example.newsfeedapp.data.remote.safeApiCall
@@ -16,6 +17,13 @@ class PostRepositoryImpl @Inject constructor(
         return when (val res = safeApiCall { api.getPostDetail(postId) }) {
             is ApiResult.Success -> res.data.post.toDomain()
             is ApiResult.Error -> throw res.exception
+        }
+    }
+
+    override suspend fun getPosts(page: Int, limit: Int): List<PostDetail> {
+        val list = api.getPosts(page = page, limit = limit)
+        return list.mapNotNull { dto ->
+            try { dto.toDomain() } catch (e: Exception) { Log.e("PostRepositoryImpl", "Error mapping post dto", e); null }
         }
     }
 }
