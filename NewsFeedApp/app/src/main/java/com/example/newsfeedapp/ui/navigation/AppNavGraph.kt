@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.newsfeedapp.ui.screens.posts.PostListScreen
+import com.example.newsfeedapp.ui.screens.posts.list.PostListScreen
 import com.example.newsfeedapp.ui.screens.posts.CreatePostScreen
 import com.example.newsfeedapp.ui.screens.posts.detail.PostDetailScreen
 
