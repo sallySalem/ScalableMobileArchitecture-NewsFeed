@@ -5,24 +5,28 @@ const postsData = require("../data/posts.json");
 
 // Get all posts
 router.get("/", auth, (req, res) => {
-    const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
+  const cursor = req.query.cursor ? parseInt(req.query.cursor) : null;
 
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
+  let startIndex = 0;
+  if (cursor) {
+    const index = postsData.findIndex(p => p.id === cursor);
+    startIndex = index >= 0 ? index + 1 : 0;
+  }
 
-  const pagedPosts = postsData.slice(startIndex, endIndex);
-  
-  const pagination = {
-    page,
-    limit,
-    totalItems: postsData.length,
-    totalPages: Math.ceil(postsData.length / limit),
+  const slicedData = postsData.slice(startIndex, startIndex + limit);
+
+  const lastItem = slicedData[slicedData.length - 1];
+  const nextCursor = lastItem ? lastItem.id : null;
+
+    const pagination = {
+      nextCursor,
+      hasMore: startIndex + limit < postsData.length,
   };
 
   res.json({
+    posts: slicedData,
     paging: pagination,
-    posts: pagedPosts,
   });
 });
 
@@ -30,7 +34,7 @@ router.get("/", auth, (req, res) => {
 // Get a single post by ID
 router.get("/:id", auth, (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const post = posts.find(p => p.postId === id);
+  const post = postsData.find(p => p.postId === id);
   if (!post) {
     return res.status(404).json({ message: "Post not found" });
   }

@@ -6,8 +6,6 @@ data class PostListApiResponse(
 )
 
 data class PaginationMetaData(
-    val page: Int,
-    val limit: Int,
-    val totalItems: Int,
-    val totalPages: Int
+    val nextCursor: Int?,
+    val hasMore: Boolean
 )

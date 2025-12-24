@@ -21,19 +21,26 @@ class PostListViewModel @Inject constructor(
         private set
 
     init {
-        loadPostDetails()
+        loadMorePosts()
     }
 
-    fun loadPostDetails() {
+    fun loadMorePosts() {
+        if (uiState.isLoading || !uiState.pagination.hasMore) return
+
         viewModelScope.launch {
             uiState = uiState.copy(isLoading = true)
 
-            when (val res = getPostsUseCase()) {
+            when (val res = getPostsUseCase(limit = 10, cursor = uiState.pagination.nextCursor)) {
                 is Resource.Success -> {
+                    val newPosts = res.data?.posts ?: emptyList()
                     uiState = uiState.copy(
                         isLoading = false,
-                        posts = res.data,
-                        error = null
+                        posts = uiState.posts + newPosts,
+                        error = null,
+                        pagination = uiState.pagination.copy(
+                            nextCursor = res.data?.nextCursor,
+                            hasMore = res.data?.hasMore ?: false
+                        )
                     )
                 }
                 is Resource.Error -> {
@@ -52,6 +59,12 @@ class PostListViewModel @Inject constructor(
 
 data class PostsUiState(
     val isLoading: Boolean = false,
-    val posts: List<PostDetail>? = null,
-    val error: String? = null
+    val posts: List<PostDetail> = emptyList(),
+    val error: String? = null,
+    val pagination: PaginationUiData = PaginationUiData()
+)
+
+data class PaginationUiData(
+    val nextCursor: Int? = null,
+    val hasMore: Boolean = true
 )

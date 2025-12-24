@@ -42,15 +42,15 @@ fun PostListScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("Error: ${state.error}")
                     Spacer(Modifier.height(8.dp))
-                    Button(onClick = { viewModel.loadPostDetails() }) {
+                    Button(onClick = { viewModel.loadMorePosts() }) {
                         Text("Retry")
                     }
                 }
             }
         }
 
-        state.posts != null -> {
-            val samplePosts = state.posts!!
+        state.posts.isNotEmpty() -> {
+            val samplePosts = state.posts
             Scaffold(
                 floatingActionButton = {
                     FloatingActionButton(onClick = onCreatePostClick) {

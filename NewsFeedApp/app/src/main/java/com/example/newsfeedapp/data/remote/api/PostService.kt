@@ -1,7 +1,6 @@
 package com.example.newsfeedapp.data.remote.api
 
 import com.example.newsfeedapp.data.remote.dto.PostDetailApiResponse
-import com.example.newsfeedapp.data.remote.dto.PostDetailDto
 import com.example.newsfeedapp.data.remote.dto.PostListApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,7 +15,7 @@ interface PostService {
 
     @GET("posts")
     suspend fun getPosts(
-        @Query("page") page: Int = 1,
-        @Query("limit") limit: Int = 10
-    ): PostListApiResponse // TODO: Change to PostListApiResponse when pagination is implemented and also implement new model after update backend for preview model.
+        @Query("limit") limit: Int = 10,
+        @Query("cursor") cursor: Int? = null,
+    ): PostListApiResponse
 }
