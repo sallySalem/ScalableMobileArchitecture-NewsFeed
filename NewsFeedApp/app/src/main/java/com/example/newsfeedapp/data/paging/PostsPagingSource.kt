@@ -1,6 +1,5 @@
 package com.example.newsfeedapp.data.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.newsfeedapp.data.mapper.toDomain

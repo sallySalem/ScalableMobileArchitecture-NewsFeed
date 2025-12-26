@@ -1,13 +1,13 @@
 package com.example.newsfeedapp.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.newsfeedapp.data.mapper.toDomain
 import com.example.newsfeedapp.data.paging.PostsPagingSource
+import com.example.newsfeedapp.data.remote.ApiResult
 import com.example.newsfeedapp.data.remote.api.PostService
-import com.example.newsfeedapp.domain.model.PaginatedPosts
+import com.example.newsfeedapp.data.remote.safeApiCall
 import com.example.newsfeedapp.domain.model.PostDetail
 import com.example.newsfeedapp.domain.repository.PostRepository
 import kotlinx.coroutines.flow.Flow
@@ -18,8 +18,10 @@ class PostRepositoryImpl @Inject constructor(
 ) : PostRepository {
 
     override suspend fun getPostDetail(postId: Long): PostDetail {
-        // Not going to implement safeApiCall for this one as it is not requested
-        return api.getPostDetail(postId).post.toDomain()
+        return when (val res = safeApiCall { api.getPostDetail(postId) }) {
+            is ApiResult.Success -> res.data.post.toDomain()
+            is ApiResult.Error -> throw res.exception
+        }
     }
 
     override fun getPosts(): Flow<PagingData<PostDetail>> {
