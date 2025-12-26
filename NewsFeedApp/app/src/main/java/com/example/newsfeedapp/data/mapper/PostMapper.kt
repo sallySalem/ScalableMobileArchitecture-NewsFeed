@@ -8,6 +8,7 @@ import com.example.newsfeedapp.data.remote.dto.toAttachmentType
 import com.example.newsfeedapp.domain.model.Attachment
 import com.example.newsfeedapp.domain.model.AuthorPreview
 import com.example.newsfeedapp.domain.model.PaginatedPosts
+import com.example.newsfeedapp.domain.model.PaginationMetaData
 import com.example.newsfeedapp.domain.model.PostDetail
 
 private inline fun <T, R> Iterable<T>?.mapOrEmpty(transform: (T) -> R): List<R> = this?.map(transform).orEmpty()
@@ -15,8 +16,10 @@ private inline fun <T, R> Iterable<T>?.mapOrEmpty(transform: (T) -> R): List<R> 
 internal fun PostListApiResponse.toDomain(): PaginatedPosts {
     return PaginatedPosts(
         posts = posts.mapOrEmpty(PostDetailDto::toDomain),
-        nextCursor = paging.nextCursor,
-        hasMore = paging.hasMore
+        paging = PaginationMetaData(
+            nextCursor = paging.nextCursor,
+            hasMore = paging.hasMore
+        )
     )
 }
 

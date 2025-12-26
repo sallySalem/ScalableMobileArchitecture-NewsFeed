@@ -54,10 +54,7 @@ fun PostListScreen(
 
                 items(
                     count = posts.itemCount,
-                    key = { index ->
-                        val post = posts.peek(index)
-                        post?.postId ?: "loading-$index"
-                    }
+                    key = { index -> posts[index]?.postId ?: "loading-$index" }
                 ) { index ->
                     val post = posts[index]
                     post?.let {
@@ -69,23 +66,43 @@ fun PostListScreen(
                 }
 
                 item {
-                    if (posts.loadState.append is LoadState.Loading) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
+                    when (val appendState = posts.loadState.append) {
+                        is LoadState.Loading -> {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
                         }
+
+                        is LoadState.Error -> {
+                            Column(
+                                modifier = Modifier.align(Alignment.Center),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "Error: ${appendState.error.localizedMessage}",
+                                    color = Color.Red
+                                )
+                                Spacer(Modifier.height(8.dp))
+                                Button(onClick = { posts.retry() }) {
+                                    Text("Retry")
+                                }
+                            }
+                        }
+
+                        is LoadState.NotLoading -> Unit
                     }
                 }
             }
-
             when (val refreshState = posts.loadState.refresh) {
                 is LoadState.Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
+
                 is LoadState.Error -> {
                     Column(
                         modifier = Modifier.align(Alignment.Center),
@@ -101,7 +118,15 @@ fun PostListScreen(
                         }
                     }
                 }
-                is LoadState.NotLoading -> Unit
+
+                is LoadState.NotLoading -> {
+                    if (posts.itemCount == 0) {
+                        Text(
+                            text = "No posts available.",
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
             }
         }
     }

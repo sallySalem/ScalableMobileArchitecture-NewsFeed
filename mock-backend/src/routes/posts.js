@@ -5,23 +5,33 @@ const postsData = require("../data/posts.json");
 
 // Get all posts
 router.get("/", auth, (req, res) => {
-  const limit = parseInt(req.query.limit) || 10;
-  const cursor = req.query.cursor ? parseInt(req.query.cursor) : null;
+  const limit = Number(req.query.limit) || 10;
+
+  const cursor =
+    req.query.cursor !== undefined && !Number.isNaN(Number(req.query.cursor))
+      ? Number(req.query.cursor)
+      : null;
 
   let startIndex = 0;
-  if (cursor) {
-    const index = postsData.findIndex(p => p.id === cursor);
+
+  if (cursor !== null) {
+    const index = postsData.findIndex(p => p.postId === cursor);
     startIndex = index >= 0 ? index + 1 : 0;
   }
 
   const slicedData = postsData.slice(startIndex, startIndex + limit);
 
-  const lastItem = slicedData[slicedData.length - 1];
-  const nextCursor = lastItem ? lastItem.id : null;
+  const hasMore = startIndex + slicedData.length < postsData.length;
 
-    const pagination = {
-      nextCursor,
-      hasMore: startIndex + limit < postsData.length,
+  const nextCursor =
+    hasMore && slicedData.length > 0
+      ? slicedData[slicedData.length - 1].postId
+      : null;
+
+
+  const pagination = {
+    nextCursor,
+    hasMore
   };
 
   res.json({
@@ -29,7 +39,6 @@ router.get("/", auth, (req, res) => {
     paging: pagination,
   });
 });
-
 
 // Get a single post by ID
 router.get("/:id", auth, (req, res) => {

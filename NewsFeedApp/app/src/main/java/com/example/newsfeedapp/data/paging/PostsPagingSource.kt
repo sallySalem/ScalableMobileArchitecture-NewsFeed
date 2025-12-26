@@ -1,5 +1,6 @@
 package com.example.newsfeedapp.data.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.newsfeedapp.data.mapper.toDomain
@@ -14,7 +15,6 @@ class PostsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PostDetail> {
         return try {
             val cursor = params.key
-
             val response = api.getPosts(
                 limit = limit,
                 cursor = cursor
@@ -23,7 +23,7 @@ class PostsPagingSource(
             LoadResult.Page(
                 data = response.posts, // TODO:  map { it.toPreview() },
                 prevKey = null, // cursor pagination: no backward load - only paging forward.
-                nextKey = if (response.hasMore) response.nextCursor else null
+                nextKey = if (response.paging.hasMore) response.paging.nextCursor else null
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
@@ -31,6 +31,8 @@ class PostsPagingSource(
     }
 
     override fun getRefreshKey(state: PagingState<Int, PostDetail>): Int? {
-        return null
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.nextKey?.minus(limit)
+        }
     }
 }

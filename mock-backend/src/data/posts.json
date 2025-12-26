@@ -1,6 +1,6 @@
 [
   {
-    "postId": 20,
+    "postId": 1,
     "content": "Happy Friday everyone! Hope you all have an amazing weekend ahead!",
     "author": {
       "id": 121,
@@ -14,7 +14,7 @@
     "attachments": []
   },
   {
-    "postId": 0,
+    "postId": 2,
     "content": "This is the first post content",
     "author": {
       "id": 101,
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "postId": 1,
+    "postId": 3,
     "content": "This is the second post content",
     "author": {
       "id": 102,
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "postId": 2,
+    "postId": 4,
     "content": "Just finished an amazing trip to the mountains!",
     "author": {
       "id": 103,
@@ -80,7 +80,7 @@
     ]
   },
   {
-    "postId": 3,
+    "postId": 5,
     "content": "Coffee and code - my favorite combination",
     "author": {
       "id": 104,
@@ -102,7 +102,7 @@
     ]
   },
   {
-    "postId": 4,
+    "postId": 6,
     "content": "Finally completed my first marathon!",
     "author": {
       "id": 105,
@@ -124,7 +124,7 @@
     ]
   },
   {
-    "postId": 5,
+    "postId": 7,
     "content": "New restaurant opening in downtown - highly recommend!",
     "author": {
       "id": 106,
@@ -146,7 +146,7 @@
     ]
   },
   {
-    "postId": 6,
+    "postId": 8,
     "content": "Started learning a new programming language today",
     "author": {
       "id": 107,
@@ -168,7 +168,7 @@
     ]
   },
   {
-    "postId": 7,
+    "postId": 9,
     "content": "Beautiful day at the beach with friends",
     "author": {
       "id": 108,
@@ -190,7 +190,7 @@
     ]
   },
   {
-    "postId": 8,
+    "postId": 10,
     "content": "Just published my first open source project!",
     "author": {
       "id": 109,
@@ -212,7 +212,7 @@
     ]
   },
   {
-    "postId": 9,
+    "postId": 11,
     "content": "Excited to announce my new job as a senior developer!",
     "author": {
       "id": 110,
@@ -234,7 +234,7 @@
     ]
   },
   {
-    "postId": 10,
+    "postId": 12,
     "content": "Just finished reading an amazing book on web development",
     "author": {
       "id": 111,
@@ -256,7 +256,7 @@
     ]
   },
   {
-    "postId": 11,
+    "postId": 13,
     "content": "Attended an amazing tech conference today!",
     "author": {
       "id": 112,
@@ -278,7 +278,7 @@
     ]
   },
   {
-    "postId": 12,
+    "postId": 14,
     "content": "Home office setup complete! Very productive workspace",
     "author": {
       "id": 113,
@@ -300,7 +300,7 @@
     ]
   },
   {
-    "postId": 13,
+    "postId": 15,
     "content": "Hiking adventure in the forest - nature is healing",
     "author": {
       "id": 114,
@@ -322,7 +322,7 @@
     ]
   },
   {
-    "postId": 14,
+    "postId": 16,
     "content": "Cooked an Italian dinner from scratch - turned out great!",
     "author": {
       "id": 115,
@@ -344,7 +344,7 @@
     ]
   },
   {
-    "postId": 15,
+    "postId": 17,
     "content": "Adopted a new puppy today! Meet Max!",
     "author": {
       "id": 116,
@@ -366,7 +366,7 @@
     ]
   },
   {
-    "postId": 16,
+    "postId": 18,
     "content": "Just completed a 30-day coding challenge!",
     "author": {
       "id": 117,
@@ -388,7 +388,7 @@
     ]
   },
   {
-    "postId": 17,
+    "postId": 19,
     "content": "Visited the museum today - ancient artifacts are fascinating",
     "author": {
       "id": 118,
@@ -410,7 +410,7 @@
     ]
   },
   {
-    "postId": 18,
+    "postId": 20,
     "content": "Finally got my certification in cloud computing!",
     "author": {
       "id": 119,
@@ -432,7 +432,7 @@
     ]
   },
   {
-    "postId": 19,
+    "postId": 21,
     "content": "Weekend trip to the countryside - pure relaxation",
     "author": {
       "id": 120,
