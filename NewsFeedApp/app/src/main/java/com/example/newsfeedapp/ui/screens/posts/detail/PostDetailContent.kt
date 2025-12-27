@@ -42,10 +42,11 @@ fun PostDetailContent(
     post: PostDetail,
     onLikeClick: () -> Unit,
     onShareClick: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    modifier: Modifier
 ) {
     Column(
-        Modifier
+        modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
