@@ -17,6 +17,7 @@ coil = "2.7.0"
 exoplayer = "1.3.1"
 media3Ui = "1.8.0"
 paging = "3.3.2"
+ui = "1.10.0"
 
 
 [libraries]
@@ -47,6 +48,7 @@ androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplaye
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3Ui" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -61,6 +61,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.ui)
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 

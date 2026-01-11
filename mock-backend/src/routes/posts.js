@@ -100,5 +100,31 @@ router.post("/interaction", auth, (req, res) => {
   });
 });
 
+// Add a new post
+router.post("/", auth, (req, res) => {
+  const { title, content } = req.body;
+
+  if (!title || !content) {
+    return res.status(400).json({ message: "Invalid data" });
+  }
+
+  // Create a new post object
+  const newPost = {
+    postId: postsData.length > 0 ? postsData[postsData.length - 1].postId + 1 : 1,
+    title,
+    content,
+    liked: false,
+    likedCount: 0,
+    shareCount: 0
+  };
+
+  // Add the new post to the postsData array
+  postsData.push(newPost);
+
+  // Save the updated postsData array to the JSON file
+  fs.writeFileSync(postsFilePath, JSON.stringify(postsData, null, 2));
+
+  return res.status(201).json({ postId: newPost.postId });
+});
 
 module.exports = router;

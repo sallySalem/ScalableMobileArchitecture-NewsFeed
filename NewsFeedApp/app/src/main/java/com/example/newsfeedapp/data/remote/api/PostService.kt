@@ -1,5 +1,6 @@
 package com.example.newsfeedapp.data.remote.api
 
+import com.example.newsfeedapp.data.remote.dto.CreatePostRequest
 import com.example.newsfeedapp.data.remote.dto.PostDetailApiResponse
 import com.example.newsfeedapp.data.remote.dto.PostInteractionRequest
 import com.example.newsfeedapp.data.remote.dto.PostListApiResponse
@@ -26,5 +27,10 @@ interface PostService {
     @POST("posts/interaction")
     suspend fun interactWithPost(
         @Body request: PostInteractionRequest
+    ): Response<Unit>
+
+    @POST("posts")
+    suspend fun createPost(
+        @Body request: CreatePostRequest
     ): Response<Unit>
 }
