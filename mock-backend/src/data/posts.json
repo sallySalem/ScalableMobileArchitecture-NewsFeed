@@ -452,13 +452,5 @@
         "caption": "Countryside relaxation"
       }
     ]
-  },
-  {
-    "postId": 22,
-    "title": "test 1",
-    "content": "details test 1",
-    "liked": false,
-    "likedCount": 0,
-    "shareCount": 0
   }
 ]

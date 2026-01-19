@@ -12,11 +12,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.newsfeedapp.data.remote.dto.AttachmentRequest
 import com.example.newsfeedapp.data.remote.dto.CreatePostRequest
+import com.example.newsfeedapp.ui.PostEvent
+import com.example.newsfeedapp.ui.PostEventBus
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
-    private val createPostUseCase: CreatePostUseCase
+    private val createPostUseCase: CreatePostUseCase,
+    private val postEventBus: PostEventBus
 ) : ViewModel() {
 
     var uiState by mutableStateOf(CreatePostUiState())
@@ -59,6 +62,7 @@ class CreatePostViewModel @Inject constructor(
                         }
                     )
                 )
+                postEventBus.post(PostEvent.PostCreated)
 
                 uiState = uiState.copy(
                     isLoading = false,
@@ -83,4 +87,3 @@ data class CreatePostUiState(
     val errorMessage: String? = null,
     val success: Boolean = false
 )
-

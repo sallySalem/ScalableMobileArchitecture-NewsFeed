@@ -102,7 +102,7 @@ router.post("/interaction", auth, (req, res) => {
 
 // Add a new post
 router.post("/", auth, (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, attachments } = req.body;
 
   if (!title || !content) {
     return res.status(400).json({ message: "Invalid data" });
@@ -113,9 +113,16 @@ router.post("/", auth, (req, res) => {
     postId: postsData.length > 0 ? postsData[postsData.length - 1].postId + 1 : 1,
     title,
     content,
+    author: {
+      id: req.user.id,
+      name: req.user.name,
+      avatarUrl: req.user.avatarUrl
+    },
+    createdAt: new Date().toISOString(),
     liked: false,
     likedCount: 0,
-    shareCount: 0
+    shareCount: 0,
+    attachments: Array.isArray(attachments) ? attachments : []
   };
 
   // Add the new post to the postsData array

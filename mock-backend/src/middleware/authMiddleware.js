@@ -7,11 +7,17 @@ function authMiddleware(req, res, next) {
 
   const token = authHeader.split(" ")[1];
 
-  // For mock: just check if token includes "-mocktoken"
   if (!token || !Buffer.from(token, "base64").toString().includes("-mocktoken")) {
     return res.status(403).json({ message: "Invalid token" });
   }
 
+   // Mock logged-in user
+  req.user = {
+    id: 101,
+    name: "Mock User",
+    avatarUrl: "https://i.pravatar.cc/150?img=40"
+  };
+  
   next();
 }
 
