@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.newsfeedapp.domain.model.PostDetail
-import com.example.newsfeedapp.domain.usecase.GetPostsUseCase
+import com.example.domain.model.PostDetail
+import com.example.domain.usecase.GetPostsUseCase
 import com.example.newsfeedapp.ui.PostEvent
 import com.example.newsfeedapp.ui.PostEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel

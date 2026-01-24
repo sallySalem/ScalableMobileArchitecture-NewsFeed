@@ -1,20 +1,20 @@
 package com.example.newsfeedapp.ui.screens.posts.create
 
 import android.net.Uri
-import androidx.lifecycle.ViewModel
-import com.example.newsfeedapp.domain.usecase.CreatePostUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newsfeedapp.data.remote.dto.AttachmentRequest
-import com.example.newsfeedapp.data.remote.dto.CreatePostRequest
+import com.example.domain.model.AttachmentType
+import com.example.domain.model.CreatePost
+import com.example.domain.model.CreatePostAttachment
+import com.example.domain.usecase.CreatePostUseCase
 import com.example.newsfeedapp.ui.PostEvent
 import com.example.newsfeedapp.ui.PostEventBus
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
@@ -33,10 +33,10 @@ class CreatePostViewModel @Inject constructor(
         uiState = uiState.copy(content = value)
     }
 
-    fun onAttachmentSelected(uri: Uri, type: String) {
+    fun onAttachmentSelected(uri: Uri, attachmentType: AttachmentType) {
         uiState = uiState.copy(
             attachmentUri = uri,
-            attachmentType = type
+            attachmentType = attachmentType
         )
     }
 
@@ -51,12 +51,12 @@ class CreatePostViewModel @Inject constructor(
 
             try {
                 createPostUseCase(
-                    CreatePostRequest(
+                    CreatePost(
                         title = uiState.title,
                         content = uiState.content,
                         attachment = uiState.attachmentUri?.let {
-                            AttachmentRequest(
-                                type = uiState.attachmentType ?: "IMAGE",
+                            CreatePostAttachment(
+                                type = uiState.attachmentType ?: AttachmentType.IMAGE,
                                 uri = it.toString()
                             )
                         }
@@ -82,7 +82,7 @@ data class CreatePostUiState(
     val title: String = "",
     val content: String = "",
     val attachmentUri: Uri? = null,
-    val attachmentType: String? = null,
+    val attachmentType: AttachmentType? = null,
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val success: Boolean = false

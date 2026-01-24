@@ -10,25 +10,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.material3.Text
-import androidx.compose.material3.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.newsfeedapp.domain.model.PostDetail
-import com.example.newsfeedapp.domain.model.AttachmentType
+import com.example.domain.model.AttachmentType
+import com.example.domain.model.PostDetail
 
 @Composable
 fun PostItem(
@@ -104,8 +104,8 @@ fun PostItem(
         if (post.attachments.isNotEmpty()) {
             val first = post.attachments.first()
             val icon = when (first.type) {
-                AttachmentType.IMAGE -> Icons.Default.Image
                 AttachmentType.VIDEO -> Icons.Default.Videocam
+                AttachmentType.IMAGE -> Icons.Default.Image
                 AttachmentType.UNKNOWN -> null
             }
 

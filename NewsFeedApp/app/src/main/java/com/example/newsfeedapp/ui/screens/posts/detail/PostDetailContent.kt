@@ -30,10 +30,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.newsfeedapp.domain.model.Attachment
-import com.example.newsfeedapp.domain.model.AttachmentType
-import com.example.newsfeedapp.domain.model.AuthorPreview
-import com.example.newsfeedapp.domain.model.PostDetail
+import com.example.domain.model.Attachment
+import com.example.domain.model.AttachmentType
+import com.example.domain.model.AuthorPreview
+import com.example.domain.model.PostDetail
 import com.example.newsfeedapp.ui.util.SimpleDateFormatter
 import com.example.newsfeedapp.ui.util.VideoPlayer
 
