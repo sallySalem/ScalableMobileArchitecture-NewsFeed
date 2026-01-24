@@ -30,8 +30,7 @@ class PostsPagingSource(
     }
 
     override fun getRefreshKey(state: PagingState<Int, PostDetail>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.nextKey?.minus(limit)
-        }
+        // This implementation always starts from the first page on refresh.
+        return null
     }
 }

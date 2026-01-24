@@ -8,6 +8,7 @@ import com.example.newsfeedapp.data.mapper.toDomain
 import com.example.newsfeedapp.data.paging.PostsPagingSource
 import com.example.newsfeedapp.data.remote.ApiResult
 import com.example.newsfeedapp.data.remote.api.PostService
+import com.example.newsfeedapp.data.remote.dto.CreatePostRequest
 import com.example.newsfeedapp.data.remote.dto.PostInteractionRequest
 import com.example.newsfeedapp.data.remote.safeApiCall
 import com.example.newsfeedapp.domain.model.PostDetail
@@ -28,6 +29,13 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun interact(request: PostInteractionRequest) {
         return when (val res = safeApiCall { api.interactWithPost(request)}) {
+            is ApiResult.Success -> Unit
+            is ApiResult.Error -> throw res.exception
+        }
+    }
+
+    override suspend fun createPost(request: CreatePostRequest) {
+        when (val res = safeApiCall { api.createPost(request) }) {
             is ApiResult.Success -> Unit
             is ApiResult.Error -> throw res.exception
         }
