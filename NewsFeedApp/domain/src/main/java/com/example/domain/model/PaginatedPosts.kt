@@ -6,6 +6,6 @@ data class PaginatedPosts(
 )
 
 data class PaginationMetaData(
-    val nextCursor: Int?,
+    val nextCursor: Long?,
     val hasMore: Boolean
 )

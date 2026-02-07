@@ -1,5 +1,6 @@
 package com.example.data.repository;
 
+import com.example.data.local.PostDatabase;
 import com.example.data.remote.api.PostService;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
@@ -25,20 +26,25 @@ import javax.inject.Provider;
 public final class PostRepositoryImpl_Factory implements Factory<PostRepositoryImpl> {
   private final Provider<PostService> apiProvider;
 
-  public PostRepositoryImpl_Factory(Provider<PostService> apiProvider) {
+  private final Provider<PostDatabase> dbProvider;
+
+  public PostRepositoryImpl_Factory(Provider<PostService> apiProvider,
+      Provider<PostDatabase> dbProvider) {
     this.apiProvider = apiProvider;
+    this.dbProvider = dbProvider;
   }
 
   @Override
   public PostRepositoryImpl get() {
-    return newInstance(apiProvider.get());
+    return newInstance(apiProvider.get(), dbProvider.get());
   }
 
-  public static PostRepositoryImpl_Factory create(Provider<PostService> apiProvider) {
-    return new PostRepositoryImpl_Factory(apiProvider);
+  public static PostRepositoryImpl_Factory create(Provider<PostService> apiProvider,
+      Provider<PostDatabase> dbProvider) {
+    return new PostRepositoryImpl_Factory(apiProvider, dbProvider);
   }
 
-  public static PostRepositoryImpl newInstance(PostService api) {
-    return new PostRepositoryImpl(api);
+  public static PostRepositoryImpl newInstance(PostService api, PostDatabase db) {
+    return new PostRepositoryImpl(api, db);
   }
 }

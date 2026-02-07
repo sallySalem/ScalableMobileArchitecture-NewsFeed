@@ -1,11 +1,14 @@
 package com.example.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
+import com.example.data.local.PostDatabase
 import com.example.data.mapper.toDomain
 import com.example.data.mapper.toRequest
-import com.example.data.paging.PostsPagingSource
+import com.example.data.paging.PostRemoteMediator
 import com.example.data.remote.ApiResult
 import com.example.data.remote.api.PostService
 import com.example.data.remote.dto.PostDetailApiResponse
@@ -15,13 +18,21 @@ import com.example.domain.model.PostDetail
 import com.example.domain.model.PostInteraction
 import com.example.domain.repository.PostRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class PostRepositoryImpl @Inject constructor(
-    private val api: PostService
+    private val api: PostService,
+    private val db: PostDatabase
 ) : PostRepository {
 
     override suspend fun getPostDetail(postId: Long): PostDetail {
+        val post = db.postDao().getPost(postId)
+        if (post != null) {
+            return post.toDomain()
+        }
+
         return when (val res = safeApiCall<PostDetailApiResponse> { api.getPostDetail(postId) }) {
             is ApiResult.Success -> res.data.post.toDomain()
             is ApiResult.Error -> throw res.exception
@@ -49,18 +60,15 @@ class PostRepositoryImpl @Inject constructor(
                 pageSize = 10,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { PostsPagingSource(api, 10) }
-        ).flow
-
-//        val response = api.getPosts(limit = 10, cursor = null)
-//        emit(
-//            PaginatedPosts(
-//                posts = response.posts.map { it.toDomain() },
-//                paging = PaginationMetaData(
-//                    nextCursor = response.paging.nextCursor,
-//                    hasMore = response.paging.hasMore
-//                )
-//            )
-//        )
+            remoteMediator = PostRemoteMediator(
+                service = api,
+                database = db
+            ),
+            pagingSourceFactory = {
+                db.postDao().getPosts()
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toDomain() }
+        }
     }
 }

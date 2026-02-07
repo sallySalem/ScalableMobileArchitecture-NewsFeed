@@ -44,15 +44,6 @@ fun CreatePostScreen(
     ) {
 
         OutlinedTextField(
-            value = state.title,
-            onValueChange = viewModel::onTitleChange,
-            label = { Text("Title") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(Modifier.height(12.dp))
-
-        OutlinedTextField(
             value = state.content,
             onValueChange = viewModel::onContentChange,
             label = { Text("Details") },

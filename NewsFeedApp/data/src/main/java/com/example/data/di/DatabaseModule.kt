@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.data.local.PostDatabase
 import com.example.data.local.dao.PostDao
+import com.example.data.local.dao.RemoteKeysDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,9 +17,14 @@ import javax.inject.Singleton
 object DatabaseModule {
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context): PostDatabase =       Room.databaseBuilder(appContext, PostDatabase::class.java, "posts.db").build()
+    fun provideDatabase(@ApplicationContext appContext: Context): PostDatabase =
+        Room.databaseBuilder(appContext, PostDatabase::class.java, "posts.db").build()
 
     @Provides
     @Singleton
     fun providePostDao(database: PostDatabase): PostDao = database.postDao()
+
+    @Provides
+    @Singleton
+    fun provideRemoteKeysDao(database: PostDatabase): RemoteKeysDao = database.remoteKeysDao()
 }

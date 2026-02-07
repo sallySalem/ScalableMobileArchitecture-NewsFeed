@@ -25,10 +25,6 @@ class CreatePostViewModel @Inject constructor(
     var uiState by mutableStateOf(CreatePostUiState())
         private set
 
-    fun onTitleChange(value: String) {
-        uiState = uiState.copy(title = value)
-    }
-
     fun onContentChange(value: String) {
         uiState = uiState.copy(content = value)
     }
@@ -41,7 +37,7 @@ class CreatePostViewModel @Inject constructor(
     }
 
     fun submitPost() {
-        if (uiState.title.isBlank() || uiState.content.isBlank()) {
+        if ( uiState.content.isBlank()) {
             uiState = uiState.copy(errorMessage = "Title and details are required")
             return
         }
@@ -52,7 +48,6 @@ class CreatePostViewModel @Inject constructor(
             try {
                 createPostUseCase(
                     CreatePost(
-                        title = uiState.title,
                         content = uiState.content,
                         attachment = uiState.attachmentUri?.let {
                             CreatePostAttachment(
@@ -79,7 +74,6 @@ class CreatePostViewModel @Inject constructor(
 }
 
 data class CreatePostUiState(
-    val title: String = "",
     val content: String = "",
     val attachmentUri: Uri? = null,
     val attachmentType: AttachmentType? = null,

@@ -1,7 +1,6 @@
 package com.example.data.remote.dto
 
 data class CreatePostRequest(
-    val title: String,
     val content: String,
     val attachment: AttachmentRequest?
 )

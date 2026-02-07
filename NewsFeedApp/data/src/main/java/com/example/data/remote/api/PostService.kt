@@ -21,7 +21,7 @@ interface PostService {
     @GET("posts")
     suspend fun getPosts(
         @Query("limit") limit: Int = 10,
-        @Query("cursor") cursor: Int? = null,
+        @Query("cursor") cursor: Long? = null,
     ): PostListApiResponse
 
     @POST("posts/interaction")

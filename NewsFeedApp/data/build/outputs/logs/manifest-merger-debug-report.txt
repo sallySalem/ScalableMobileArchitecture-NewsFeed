@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml:2:13-83
-INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml:2:13-83
+ADDED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml:2:13-83
+INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml:2:13-83
 	package
-		INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml
+		INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml
 	xmlns:android
-		ADDED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml:2:23-81
+		ADDED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml:2:23-81
 uses-sdk
-INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml reason: use-sdk injection requested
-INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml
-INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml
+INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml reason: use-sdk injection requested
+INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml
+INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml
 	android:targetSdkVersion
-		INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml
+		INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml
 	android:minSdkVersion
-		INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest306041782405771227.xml
+		INJECTED from /Users/sally/Sally/WorkSpace/MSD/NewsFeed/NewsFeedApp/data/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest1783235027456729250.xml
