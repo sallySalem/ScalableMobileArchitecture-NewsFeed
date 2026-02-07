@@ -176,8 +176,8 @@
       "avatarUrl": "https://i.pravatar.cc/150?img=35"
     },
     "createdAt": "2025-11-23T17:20:00Z",
-    "liked": true,
-    "likedCount": 342,
+    "liked": false,
+    "likedCount": 341,
     "shareCount": 67,
     "attachments": [
       {

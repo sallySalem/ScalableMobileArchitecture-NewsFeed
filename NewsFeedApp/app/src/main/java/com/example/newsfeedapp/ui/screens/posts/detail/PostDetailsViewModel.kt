@@ -6,11 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.newsfeedapp.data.remote.dto.PostInteractionRequest
-import com.example.newsfeedapp.domain.model.PostDetail
-import com.example.newsfeedapp.domain.model.Resource
-import com.example.newsfeedapp.domain.usecase.GetPostDetailUseCase
-import com.example.newsfeedapp.domain.usecase.InteractWithPostUseCase
+import com.example.domain.model.InteractionType
+import com.example.domain.model.PostDetail
+import com.example.domain.model.PostInteraction
+import com.example.domain.model.Resource
+import com.example.domain.usecase.GetPostDetailUseCase
+import com.example.domain.usecase.InteractWithPostUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,12 +44,14 @@ class PostDetailsViewModel @Inject constructor(
                         error = null
                     )
                 }
+
                 is Resource.Error -> {
                     uiState = uiState.copy(
                         isLoading = false,
-                        error = res.message
+                        error = res.throwable.message
                     )
                 }
+
                 is Resource.Loading -> {
                     uiState = uiState.copy(isLoading = true)
                 }
@@ -64,7 +67,9 @@ class PostDetailsViewModel @Inject constructor(
 
         val updated = current.copy(
             liked = isLiking,
-            likedCount = if (isLiking) current.likedCount + 1 else (current.likedCount - 1).coerceAtLeast(0)
+            likedCount = if (isLiking) current.likedCount + 1 else (current.likedCount - 1).coerceAtLeast(
+                0
+            )
         )
 
         uiState = uiState.copy(post = updated)
@@ -72,9 +77,9 @@ class PostDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 interactWithPostUseCase(
-                    PostInteractionRequest(
+                    PostInteraction(
                         postId = current.postId,
-                        interactionType = interactionType
+                        type = interactionType
                     )
                 )
                 uiState = uiState.copy(
@@ -86,7 +91,8 @@ class PostDetailsViewModel @Inject constructor(
                 uiState = uiState.copy(
                     post = current,
                     message = UiMessage.Error("Failed to update like")
-                )            }
+                )
+            }
         }
     }
 
@@ -100,9 +106,9 @@ class PostDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 interactWithPostUseCase(
-                    PostInteractionRequest(
+                    PostInteraction(
                         postId = current.postId,
-                        interactionType = InteractionType.SHARED
+                        type = InteractionType.SHARED
                     )
                 )
                 uiState = uiState.copy(
@@ -132,10 +138,4 @@ data class PostDetailsUiState(
 sealed class UiMessage {
     data class Success(val text: String) : UiMessage()
     data class Error(val text: String) : UiMessage()
-}
-
-object InteractionType {
-    const val LIKED = "LIKED"
-    const val REMOVED_LIKE = "REMOVED_LIKE"
-    const val SHARED = "SHARED"
 }
