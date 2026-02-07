@@ -35,8 +35,8 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.paging.runtime)
     implementation(libs.paging.common)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 }
