@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.posts_list"
+    namespace = "com.msd.posts_list"
     compileSdk = 36
 
     defaultConfig {

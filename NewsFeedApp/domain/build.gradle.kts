@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
-group = "com.example.domain"
+group = "com.msd.domain"
 version = "1.0"
 
 kotlin {

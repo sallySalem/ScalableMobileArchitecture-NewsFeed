@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.newsfeedapp"
+    namespace = "com.msd.newsfeedapp"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.newsfeedapp"
+        applicationId = "com.msd.newsfeedapp"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
