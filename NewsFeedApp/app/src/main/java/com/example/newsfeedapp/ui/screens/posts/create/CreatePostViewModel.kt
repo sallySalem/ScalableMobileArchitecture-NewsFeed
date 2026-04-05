@@ -10,8 +10,8 @@ import com.example.domain.model.AttachmentType
 import com.example.domain.model.CreatePost
 import com.example.domain.model.CreatePostAttachment
 import com.example.domain.usecase.CreatePostUseCase
-import com.example.newsfeedapp.ui.PostEvent
-import com.example.newsfeedapp.ui.PostEventBus
+import com.example.domain.event.PostEvent
+import com.example.domain.event.PostEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

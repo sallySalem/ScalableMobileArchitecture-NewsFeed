@@ -1,4 +1,4 @@
-package com.example.newsfeedapp.ui.screens.posts.list
+package com.example.posts_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,8 +6,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.domain.model.PostDetail
 import com.example.domain.usecase.GetPostsUseCase
-import com.example.newsfeedapp.ui.PostEvent
-import com.example.newsfeedapp.ui.PostEventBus
+import com.example.domain.event.PostEvent
+import com.example.domain.event.PostEventBus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

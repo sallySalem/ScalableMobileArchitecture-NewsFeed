@@ -1,4 +1,4 @@
-package com.example.newsfeedapp.ui
+package com.example.domain.event
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

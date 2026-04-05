@@ -22,3 +22,4 @@ rootProject.name = "NewsFeedApp"
 include(":app")
 include(":data")
 include(":domain")
+include(":features:posts-list")

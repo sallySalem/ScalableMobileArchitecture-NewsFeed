@@ -1,5 +1,4 @@
-package com.example.newsfeedapp.ui.screens.posts.list
-
+package com.example.posts_list
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,14 +25,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 
-
 @Composable
 fun PostListScreen(
-    viewModel: PostListViewModel = hiltViewModel(),
     onCreatePostClick: () -> Unit,
-    onPostClick: (String) -> Unit
+    onPostClick: (String) -> Unit,
+    viewModel: PostListViewModel = hiltViewModel()
 ) {
-
     val posts = viewModel.posts.collectAsLazyPagingItems()
 
     Scaffold(
@@ -51,7 +48,6 @@ fun PostListScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-
                 items(
                     count = posts.itemCount,
                     key = { index -> posts[index]?.postId ?: "loading-$index" }

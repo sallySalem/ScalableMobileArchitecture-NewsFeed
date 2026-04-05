@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.newsfeedapp.ui.screens.posts.list.PostListScreen
+import com.example.posts_list.PostListScreen
 import com.example.newsfeedapp.ui.screens.posts.create.CreatePostScreen
 import com.example.newsfeedapp.ui.screens.posts.detail.PostDetailScreen
 
@@ -33,11 +33,6 @@ fun AppNavGraph(navController: NavHostController) {
             "detail/{postId}",
             arguments = listOf(navArgument("postId") { type = NavType.LongType })
         ) { backStackEntry ->
-//            val postId = backStackEntry.arguments?.getString("postId") ?: ""
-//            PostDetailScreen(
-//                postId = postId,
-//                onBack = { navController.popBackStack() }
-//            )
             PostDetailScreen(
                 onBack = { navController.popBackStack() }
             )

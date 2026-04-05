@@ -1,4 +1,4 @@
-package com.example.newsfeedapp.ui.screens.posts.list
+package com.example.posts_list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -46,7 +46,7 @@ fun PostItem(
 
         AsyncImage(
             model = post.author.avatarUrl,
-            contentDescription = null, //TODO: Add A11y support
+            contentDescription = null,
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
@@ -62,8 +62,6 @@ fun PostItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-
-            Spacer(Modifier.height(6.dp))
 
             Spacer(Modifier.height(6.dp))
 
@@ -100,7 +98,6 @@ fun PostItem(
             }
         }
 
-        // Show a single icon on the right for IMAGE or VIDEO; do not show anything for UNKNOWN
         if (post.attachments.isNotEmpty()) {
             val first = post.attachments.first()
             val icon = when (first.type) {
