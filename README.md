@@ -22,7 +22,6 @@ Design a mobile application for a News Feed that:
 - Evolves from monolith → modular architecture 
 - Keeps performance and maintainability at scale
 
----
 ## Architecture Overview
 The application uses a **three-layer modular architecture** following the **MVVM (Model-View-ViewModel)** pattern:
 
@@ -337,7 +336,7 @@ npm run dev
 
 ### Backend Features
 - Mock data generation
-- Authentication (JWT)
+- Authentication
 - Error handling
 - Pagination support
 
@@ -353,6 +352,7 @@ Key technologies:
 - **ExoPlayer** for media playback
 
 **All versions are defined in** `gradle/libs.versions.toml` for centralized dependency management.
+
 ---
 
 ## System Design Interview Guide
