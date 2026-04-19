@@ -1,21 +1,18 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    alias(libs.plugins.legacy.kapt)
     id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "com.example.data"
-    compileSdk = 34
+    namespace = "com.msd.data"
+    compileSdk = 36
 
     defaultConfig {
-        minSdk = 24
-        // targetSdk is deprecated, use testOptions.targetSdk or lint.targetSdk in AGP 9.0+
-        // targetSdk = 34
+        minSdk = 26
     }
     testOptions {
-        targetSdk = 34
+        targetSdk = 36
     }
 }
 

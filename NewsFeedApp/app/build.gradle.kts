@@ -1,16 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
-    id("kotlin-kapt")
+    alias(libs.plugins.legacy.kapt)
 }
 
 android {
-    namespace = "com.example.newsfeedapp"
+    namespace = "com.msd.newsfeedapp"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.newsfeedapp"
+        applicationId = "com.msd.newsfeedapp"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
@@ -31,9 +31,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
 }
 
 kotlin {
@@ -43,6 +40,7 @@ kotlin {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":features:posts-list"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
