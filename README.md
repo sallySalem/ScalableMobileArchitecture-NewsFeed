@@ -285,8 +285,7 @@ app (Android Application)
 └── depends on → data
 
 features:posts-list (Independent Feature)
-├── depends on → domain
-└── depends on → data
+└── depends on → domain
 
 data (Implementation)
 └── depends on → domain
