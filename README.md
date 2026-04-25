@@ -2,28 +2,41 @@
 
 ## Overview
 
-This project demonstrates how to design and scale a mobile application architecture for a News Feed product used by millions of users. It showcases a **hybrid modular architecture** combining:
-
-- A fully modularized feature (`posts-list`)
-- Shared domain and data layers
-- Core application logic in the main app module
+This project demonstrates how to design and scale a mobile application architecture for a News Feed product used by millions of users.
 
 The focus is not on building features, but on designing a system that:
 
-- Scales across multiple teams
+- Scalable mobile architecture design 
+- Multi-team development scenarios
+- Engineering trad-offs and decision-making
 - Maintains consistency and quality
-- Enables fast and reliable delivery
-- Demonstrates migration patterns for legacy codebases
+- Demonstrates migration patterns for legacy codebases 
 
+It includes a sample Android implementation alongside architectural documentation, trade-offs, and system design considerations.
+
+---
 ## Problem Statement
-Design a mobile application for a News Feed that:
-- Supports large-scale usage
-- Works with multiple teams in parallel
-- Evolves from monolith → modular architecture 
-- Keeps performance and maintainability at scale
+**Design a mobile application for a News Feed that:**
+- supports a large and growing user base
+- Evolves from monolith → modular architecture
+- Evolves continuously with new product requirements 
+- is built and maintained by multiple teams in parallel
+
+**Key challenges:**
+- Avoiding a tightly coupled monolithic codebase
+- Enabling independent team contributions
+- Maintaining performance, consistency, and maintainability at scale
 
 ## Architecture Overview
-The application uses a **three-layer modular architecture** following the **MVVM (Model-View-ViewModel)** pattern:
+The application uses a **hybrid modular architecture** following the **MVVM (Model-View-ViewModel)** pattern:
+
+- One feature is fully modularized feature (`posts-list`)
+- Other features remain inside the main app
+- Architectural boundaries are introduced gradually
+- Shared domain and data layers
+- Core application logic in the main app module
+
+This approach reflects how real systems evolve in production environments rather than being fully redesigned from scratch.
 
 ### Layer 1: Application Module (View Layer)
 - **Main App** (`app/`) → UI orchestration, navigation, DI setup
@@ -41,17 +54,20 @@ The application uses a **three-layer modular architecture** following the **MVVM
 - Can be developed and tested independently by dedicated teams
 
 ### Layer 3: Domain & Data Layers (Model Layer - Shared Foundation)
-- **Domain Layer** → business logic, use cases, and entities
-  - Interfaces for repositories (contracts for data sources)
-  - Domain models (pure Kotlin entities)
-  - Use cases (GetPostsUseCase, GetPostDetailUseCase, CreatePostUseCase, InteractWithPostUseCase)
-  - Pure Kotlin, no Android dependencies
-- **Data Layer** → data sources and repository implementations
-  - Retrofit API integration (Remote source)
-  - Local caching with Room (Local source)
-  - Pagination support
-  - Mappers for DTO transformation
-  - Repository implementations
+**Domain Layer** → business logic, use cases, and entities
+* Interfaces for repositories (contracts for data sources)
+* Domain models (pure Kotlin entities)
+* Use cases (GetPostsUseCase, GetPostDetailUseCase, CreatePostUseCase, InteractWithPostUseCase)
+* Pure Kotlin, no Android dependencies
+
+**Data Layer** → data sources and repository implementations
+* Retrofit API integration (Remote source)
+* Local caching with Room (Local source)
+* Pagination support
+* Mappers for DTO transformation
+* Repository implementations
+
+
 
 
 
@@ -71,57 +87,61 @@ The application uses a **three-layer modular architecture** following the **MVVM
                              │       Retrofit+Room        │
                              │        Repositories        │
                              └────────────────────────────┘
+
+
+### Why Not Full Modularization?
+
+Although full modularization is often considered a best practice, it comes with significant trade-offs:
+
+* Increased project and dependency complexity
+* Higher coordination cost across teams
+* Slower onboarding for new contributors
+* Risk of over-engineering early-stage systems
+
+In real production environments, a **partial modularization strategy** is often more practical and sustainable.
+
+This project intentionally demonstrates:
+
+* A realistic migration state
+* Balancing delivery speed vs architectural purity
+* Gradual evolution instead of full refactoring
+---
 ## Key Architecture Decisions
 
-### Modularization
-- **Reduces coupling** between features → independence
-- **Allows teams to work independently** → faster iteration
-- **Improves build performance** → only affected modules rebuild
-- **Enables feature flags** → easier rollouts and experimentation
-- **Reduces cognitive load** → developers focus on their domain
+**1. Incremental Modularization over Big-Bang Refactor**
 
-### Data Layer
-The data layer implements **repository pattern** with multiple sources:
-- **Remote Source** (Retrofit) → API communication
-  - Network interceptors for logging and auth
-  - Error handling and retry logic
-- **Local Source** (Room) → offline support & caching
-  - SQLite-backed persistence
-  - Pagination support via Room + Paging
-- **Repository** → abstraction layer
-  - Delegates to appropriate data source
-  - Handles data transformation via mappers
-  - Ensures clean separation from domain logic
+Modularization is introduced gradually instead of a full system rewrite.
 
-### Domain Layer (Business Logic)
-- **Pure Kotlin** (no Android dependencies)
-- **Use Cases** → encapsulate business logic
-  - GetPostsUseCase
-  - GetPostDetailUseCase
-  - CreatePostUseCase
-  - InteractWithPostUseCase
-- **Domain Models** → core entities
-- **Repository Interfaces** → contracts for data sources
+**Why:**
 
-### Dependency Injection (Hilt)
-- Compile-time safe DI with Hilt
-- Reduces boilerplate through annotations
-- Modules defined in layers for clear ownership
+* Reduces risk in production systems
+* Avoids blocking feature delivery
+* Allows teams to adopt architecture patterns progressively 
+* Clear Boundaries in a Hybrid System
 
-### Pagination Strategy
-- **Paging 3 Library** → handles pagination complexity
-- **Room Integration** → offline-first pagination
-- **Network + Local** → seamless user experience with caching
+**2. Clear Boundaries in a Hybrid System**
 
-## Trade-offs
+Even in a partially modularized system, boundaries are intentionally defined.
 
-| Decision             | Pros                           | Cons                    |
-|----------------------|--------------------------------|-------------------------|
-| Modular architecture | Scalability, team independence | Increased complexity    |
-| Native Android       | Performance, flexibility       | Higher development cost |
-| Clean layering       | Maintainability                | More abstraction        |
+**Why:**
+
+* Prepares the system for future modular extraction
+* Prevents deep coupling between features
+* Maintains architectural direction during transition
 
 
+### Trade-offs Summary
+
+This project explicitly demonstrates that:
+
+* Perfect architecture is rarely the starting point
+* Incremental improvement is more practical than full rewrites
+* Trade-offs are an essential part of system design
+* Architectural decisions must balance speed, scale, and maintainability
+
+For detailed information on key architecture decisions, modularization strategy, data layer design, dependency injection, and trade-offs, see **[ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md)**.
+
+---
 ## Scaling the System
 
 ### Current State: Hybrid Architecture
@@ -131,168 +151,32 @@ The data layer implements **repository pattern** with multiple sources:
 - Core team → Owns domain, data, app layers
 - Total: Can scale to 3-5 teams with this foundation
 
-### Step 1: Single-Feature Modularization
+### Step 1: Expand Modularization
+* Gradually extract additional features into modules
+* Define stricter module boundaries
+### Step 2: Introduce Platform Layer
+* Shared components (UI, networking, data) become platform-owned modules
+* Clear ownership model per module
+### Step 3: Enable Team Autonomy
+* Teams own feature modules end-to-end
+* Reduced cross-team dependencies
+### Step 4: Improve Developer Experience
+* Optimized build and CI/CD pipelines
+* Standardized tooling and development practices
 
- **Already Implemented**: `posts-list` feature module
-
-- Developed independently from main app
-- Has own ViewModel, UI components
-- Integrates with shared domain/data layers
-- Can be tested and deployed independently
-
-### Step 2: Feature Expansion (3-5 Teams)
-
-**When adding more features (Profile, Notifications, etc.):**
-
-Each feature gets its own module:
-```
-features/
-├── posts-list/
-├── user-profile/
-├── notifications/
-└── .../
-```
-
-**Ownership Model:**
-```
-Team A → features:posts-list
-Team B → features:user-profile   
-Team C → features:notifications
-Core Team → domain + data + app
-```
-
-### Step 3: Avoiding Conflicts & Ensuring Quality
-
-**1. Module Boundaries**
-- Each feature module depends ONLY on domain + data
-- NO cross-feature dependencies
-- Shared UI components in app module or separate `ui-common` module
-
-**2. Code Ownership**
-```
-OWNERS file:
-/domain → Core team
-/data   → Core team  
-/app    → Core team
-/features/posts-list → Team A
-/features/user-profile → Team B
-```
-
-**3. Clear API Contracts**
-- Domain use cases are contracts
-- Data layer abstractions are immutable
-- Features implement features, not other features
-
-**4. Consistent Patterns**
-- All features follow same ViewModel + Screen pattern
-- Shared dependency injection rules
-- Standardized error handling
-
-### Avoiding Monolithic Pitfalls
-
-| Problem                                 | Solution | Implementation |
-|-----------------------------------------|----------|-----------------|
-| Cross-feature coupling<br/>(Tight coupling) | Clear module boundaries | No imports between features |
-| Slow builds                             | Parallel compilation | Feature modules built separately |
-| Shared state management                 | Domain layer contracts | UseCase interfaces |
-| UI component duplication                | Shared component module | `ui-common` module |
-| Testing complexity                      | Module-level testing | Unit + integration tests per feature |
-| Onboarding difficulty                   | Clear folder structure | Consistent patterns across modules |
+For detailed information on system evolution, team scaling, feature expansion, and avoiding monolithic pitfalls, see **[SCALING_DETAILS.md](./SCALING_DETAILS.md)**.
 
 
 ## Project Structure
-
 ### Module Organization
 
 This project intentionally demonstrates a **hybrid modular architecture** to illustrate:
-- What proper modularization looks like 
+- What proper modularization looks like
 - How legacy or non-modular code coexists during migrations
 - The trade-offs of partial refactoring in large systems
 - Gradual migration path from monolith → modular
 
-### Directory Structure
-
-```
-NewsFeedApp/
-├── app/                           → Main Application Module
-│   ├── build.gradle.kts          → App module configuration
-│   ├── src/main/
-│   │   ├── java/com/msd/newsfeedapp/
-│   │   │   ├── NewsFeedApplication.kt
-│   │   │   ├── di/               → Application-level DI
-│   │   │   └── ui/               → UI screens, navigation, theme
-│   │   ├── res/                  → Resources (layouts, strings, colors)
-│   │   └── AndroidManifest.xml
-│   └── proguard-rules.pro
-│
-├── domain/                        → Domain Layer (Pure Kotlin)
-│   ├── build.gradle.kts
-│   └── src/main/java/com/msd/domain/
-│       ├── model/                → Domain entities & models
-│       ├── repository/           → Repository interfaces
-│       ├── usecase/              → Business logic use cases
-│       │   ├── GetPostsUseCase
-│       │   ├── GetPostDetailUseCase
-│       │   ├── CreatePostUseCase
-│       │   └── InteractWithPostUseCase
-│       └── event/                → Domain events
-│
-├── data/                          → Data Layer (Implementation)
-│   ├── build.gradle.kts
-│   └── src/main/java/com/msd/data/
-│       ├── remote/               → Network layer
-│       │   ├── api/              → Retrofit interfaces
-│       │   ├── dto/              → Data Transfer Objects
-│       │   ├── interceptor/      → HTTP interceptors
-│       │   ├── NetworkUtils.kt
-│       │   └── ApiResult.kt      → Sealed class for API responses
-│       ├── local/                → Local caching (Room)
-│       │   ├── database/
-│       │   ├── dao/
-│       │   └── entity/
-│       ├── mapper/               → DTO ↔ Domain model mapping
-│       ├── repository/           → Repository implementations
-│       │   └── PostRepositoryImpl.kt
-│       ├── paging/               → Pagination logic
-│       └── di/                   → Data layer DI modules
-│
-├── features/                      → Feature Modules
-│   └── posts-list/               → Modularized Posts List Feature
-│       ├── build.gradle.kts
-│       └── src/main/
-│           ├── java/com/msd/posts_list/
-│           │   ├── PostListScreen.kt   → Feature UI
-│           │   ├── PostListViewModel.kt → Feature business logic
-│           │   ├── PostItem.kt         → UI components
-│           │   └── di/                 → Feature DI (if needed)
-│           └── res/                    → Feature resources
-│
-├── gradle/
-│   ├── libs.versions.toml        → Centralized dependency versioning
-│   └── wrapper/                  → Gradle wrapper
-│
-├── build.gradle.kts              → Root build configuration
-├── settings.gradle.kts           → Module includes
-└── local.properties              → Local build configuration
-```
-
-### Module Dependencies
-
-```
-app (Android Application)
-├── depends on → features:posts-list
-├── depends on → domain
-└── depends on → data
-
-features:posts-list (Independent Feature)
-└── depends on → domain
-
-data (Implementation)
-└── depends on → domain
-
-domain (Pure Kotlin)
-└── (no external dependencies)
-```
+For detailed information on module organization, directory structure, and module dependencies, see **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**.
 
 ## Backend (Mock Server)
 
@@ -350,8 +234,8 @@ Key technologies:
 - **Coroutines** for async operations
 - **ExoPlayer** for media playback
 
-**All versions are defined in** `gradle/libs.versions.toml` for centralized dependency management.
 
+All versions are defined in `gradle/libs.versions.toml` for centralized dependency management.
 ---
 
 ## System Design Interview Guide
@@ -365,4 +249,3 @@ This includes:
 - Scaling considerations
 - Trade-offs discussion
 - How this project demonstrates these patterns 
----
