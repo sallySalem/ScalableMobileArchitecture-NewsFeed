@@ -67,9 +67,7 @@ This approach reflects how real systems evolve in production environments rather
 * Mappers for DTO transformation
 * Repository implementations
 
-
-
-
+-
 
                         ┌──────────────────────────────┐
                         │        Main App Layer        │
@@ -166,7 +164,7 @@ For detailed information on key architecture decisions, modularization strategy,
 
 For detailed information on system evolution, team scaling, feature expansion, and avoiding monolithic pitfalls, see **[SCALING_DETAILS.md](./SCALING_DETAILS.md)**.
 
-
+---
 ## Project Structure
 ### Module Organization
 
@@ -234,8 +232,8 @@ Key technologies:
 - **Coroutines** for async operations
 - **ExoPlayer** for media playback
 
-
 All versions are defined in `gradle/libs.versions.toml` for centralized dependency management.
+
 ---
 
 ## System Design Interview Guide
