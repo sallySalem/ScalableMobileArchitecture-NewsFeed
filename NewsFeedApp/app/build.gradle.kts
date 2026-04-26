@@ -33,17 +33,14 @@ android {
     buildFeatures {
         compose = true
     }
-    testOptions {
-        unitTests.all {
-            testCoverage.jacoco {
-                includeNoLocationClasses = true
-            }
-        }
-    }
 }
 
 kotlin {
     jvmToolchain(17)
+}
+
+detekt {
+    config = files("${rootProject.projectDir}/detekt.yml")
 }
 
 dependencies {
