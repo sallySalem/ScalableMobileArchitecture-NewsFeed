@@ -7,7 +7,12 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/compiler.xml
+/.idea/kotlinc.xml
 .DS_Store
+ARCHITECTURE_DECISIONS.md
+PROJECT_STRUCTURE.md
+SCALING_DETAILS.md
 /build
 /captures
 .externalNativeBuild

@@ -20,7 +20,7 @@ It includes a sample Android implementation alongside architectural documentatio
 - supports a large and growing user base
 - Evolves from monolith → modular architecture
 - Evolves continuously with new product requirements 
-- is built and maintained by multiple teams in parallel
+- Built and maintained by multiple teams in parallel
 
 **Key challenges:**
 - Avoiding a tightly coupled monolithic codebase
