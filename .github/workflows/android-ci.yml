@@ -31,26 +31,26 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Grant execute permission
-        run: chmod +x ./gradlew
+        run: chmod +x ./NewsFeedApp/gradlew
 
       - name: Build (includes tests)
-        run: ./gradlew build
+        run: ./NewsFeedApp/gradlew build
 
       - name: Static analysis (detekt)
-        run: ./gradlew detekt
+        run: ./NewsFeedApp/gradlew detekt
 
       - name: Lint
-        run: ./gradlew lint
+        run: ./NewsFeedApp/gradlew lint
 
 
       - name: Code Coverage
-        run: ./gradlew jacocoTestReport
+        run: ./NewsFeedApp/gradlew jacocoTestReport
 
       - name: Assemble Debug APK
-        run: ./gradlew assembleDebug
+        run: ./NewsFeedApp/gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: NewsFeedApp/app/build/outputs/apk/debug/*.apk
