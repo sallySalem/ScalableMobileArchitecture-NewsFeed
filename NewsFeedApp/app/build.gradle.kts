@@ -35,7 +35,7 @@ android {
     }
     testOptions {
         unitTests.all {
-            jacoco {
+            testCoverage.jacoco {
                 includeNoLocationClasses = true
             }
         }
@@ -101,11 +101,9 @@ tasks.register("jacocoTestReport", JacocoReport::class) {
     }
 
     classDirectories.setFrom(
-        fileTree(dir = "${project.buildDir}/tmp/kotlin-classes/debug") {
-            exclude("**/R.class", "**/R$*.class", "**/BuildConfig.class", "**/Manifest*.*")
-        }
+        project.fileTree("dir" to "${project.layout.buildDirectory.get()}/tmp/kotlin-classes/debug").exclude("**/R.class", "**/R$*.class", "**/BuildConfig.class", "**/Manifest*.*")
     )
 
     sourceDirectories.setFrom(files("${project.projectDir}/src/main/kotlin"))
-    executionData.setFrom(file("${project.buildDir}/jacoco/testDebugUnitTest.exec"))
+    executionData.setFrom(file("${project.layout.buildDirectory.get()}/jacoco/testDebugUnitTest.exec"))
 }
