@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.legacy.kapt)
-    id("io.gitlab.arturbosch.detekt") version "1.23.0"
+    alias(libs.plugins.detekt)
     jacoco
 }
 
