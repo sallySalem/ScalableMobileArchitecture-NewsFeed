@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.legacy.kapt)
+    id("io.gitlab.arturbosch.detekt") version "1.23.0"
+    jacoco
 }
 
 android {
@@ -30,6 +32,13 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 }
 
@@ -76,4 +85,27 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.register("jacocoTestReport", JacocoReport::class) {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+
+    classDirectories.setFrom(
+        fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/debug") {
+            exclude("**/R.class", "**/R$*.class", "**/BuildConfig.class", "**/Manifest*.*")
+        }
+    )
+
+    sourceDirectories.setFrom(files("${project.projectDir}/src/main/kotlin"))
+    executionData.setFrom(file("${project.buildDir}/jacoco/testDebugUnitTest.exec"))
 }
