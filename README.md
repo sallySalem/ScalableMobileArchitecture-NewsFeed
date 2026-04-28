@@ -6,11 +6,10 @@ This project demonstrates how to design and scale a mobile application architect
 
 The focus is not on building features, but on designing a system that:
 
-- Scalable mobile architecture design 
-- Multi-team development scenarios
-- Engineering trad-offs and decision-making
-- Maintains consistency and quality
-- Demonstrates migration patterns for legacy codebases 
+* Scales to millions of users through modular design.
+* Supports multi-team development workflows.
+* Balances engineering trade-offs with product speed.
+* Maintains quality during legacy migrations.
 
 It includes a sample Android implementation alongside architectural documentation, trade-offs, and system design considerations.
 
