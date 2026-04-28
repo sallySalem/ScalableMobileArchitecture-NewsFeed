@@ -2,69 +2,49 @@
 
 ## Overview
 
-This project demonstrates how to design and scale a mobile application architecture for a News Feed product used by millions of users.
+This project demonstrates how mobile architectures evolve in real-world systems under scale, team growth, and delivery constraints.
 
-The focus is not on building features, but on designing a system that:
+Instead of focusing on features, it focuses on engineering decisions required to evolve real-world systems:
 
-* Scales to millions of users through modular design.
-* Supports multi-team development workflows.
-* Balances engineering trade-offs with product speed.
-* Maintains quality during legacy migrations.
+* How to move from monolith → modular architecture
+* How to support multiple teams working in parallel
+* How to balance scalability with delivery speed
+* How to evolve architecture without full rewrites
 
-It includes a sample Android implementation alongside architectural documentation, trade-offs, and system design considerations.
+This repository includes a working Android implementation alongside architectural decisions, trade-offs, and scaling strategy.
 
----
+
 ## Problem Statement
-**Design a mobile application for a News Feed that:**
-- supports a large and growing user base
-- Evolves from monolith → modular architecture
-- Evolves continuously with new product requirements 
-- Built and maintained by multiple teams in parallel
+News Feed systems are simple to start — but difficult to scale.
 
-**Key challenges:**
-- Avoiding a tightly coupled monolithic codebase
-- Enabling independent team contributions
-- Maintaining performance, consistency, and maintainability at scale
+As the product grows, teams face:
 
-## Architecture Overview
-The application uses a **hybrid modular architecture** following the **MVVM (Model-View-ViewModel)** pattern:
+* Increasing coupling in monolithic codebases
+* Slower development due to shared ownership
+* Difficulty introducing new features safely
+* Architectural degradation over time
 
-- One feature is fully modularized feature (`posts-list`)
-- Other features remain inside the main app
-- Architectural boundaries are introduced gradually
-- Shared domain and data layers
-- Core application logic in the main app module
+The challenge is not building the app — it is keeping it scalable while it evolves.
 
-This approach reflects how real systems evolve in production environments rather than being fully redesigned from scratch.
 
-### Layer 1: Application Module (View Layer)
-- **Main App** (`app/`) → UI orchestration, navigation, DI setup
-- Jetpack Compose-based UI → renders UI declaratively
-- Hilt dependency injection
-- Navigation graphs
-- Observes state changes from ViewModels
+## What Makes This Project Different
+This is not a “clean architecture sample”.
 
-### Layer 2: Feature Modules (ViewModel Layer)
-- **Posts List** (`features/posts-list`) → fully modularized, independently developed
-- **PostListViewModel** → holds UI state and communicates with use cases
-  - Uses coroutines for async operations
-  - Survives configuration changes (lifecycle-aware)
-- Demonstrates best practices for feature isolation
-- Can be developed and tested independently by dedicated teams
+It intentionally demonstrates:
+* Incremental modularization (not a full rewrite)
+* Hybrid architecture in transition
+* Real trade-offs between ideal vs practical design
+* How architecture evolves with team and product growth
 
-### Layer 3: Domain & Data Layers (Model Layer - Shared Foundation)
-**Domain Layer** → business logic, use cases, and entities
-* Interfaces for repositories (contracts for data sources)
-* Domain models (pure Kotlin entities)
-* Use cases (GetPostsUseCase, GetPostDetailUseCase, CreatePostUseCase, InteractWithPostUseCase)
-* Pure Kotlin, no Android dependencies
 
-**Data Layer** → data sources and repository implementations
-* Retrofit API integration (Remote source)
-* Local caching with Room (Local source)
-* Pagination support
-* Mappers for DTO transformation
-* Repository implementations
+## Architecture Approach
+The system follows a hybrid modular architecture:
+
+* One feature (posts-list) is fully modularized
+* Remaining features live inside the main app
+* Shared domain and data layers act as a stable foundation
+
+This reflects how real systems evolve — gradually, not perfectly.
 
 -
 
@@ -102,147 +82,91 @@ This project intentionally demonstrates:
 * A realistic migration state
 * Balancing delivery speed vs architectural purity
 * Gradual evolution instead of full refactoring
----
-## Key Architecture Decisions
 
-**1. Incremental Modularization over Big-Bang Refactor**
+## Trade-offs
+This architecture intentionally balances:
 
-Modularization is introduced gradually instead of a full system rewrite.
+* **Modularity vs Complexity**
+    Full modularization improves scalability but increases system overhead
+* **Scalability vs Delivery Speed**
+    Incremental adoption avoids blocking product development
+* **Flexibility vs Developer Experience**
+    More abstraction enables scale but increases onboarding cost
 
-**Why:**
+There is no “perfect” architecture — only context-driven decisions.
 
+## Key Decisions
+**1. Incremental Modularization**
+
+Modularization is introduced gradually — not through a full rewrite.
+Why:
 * Reduces risk in production systems
 * Avoids blocking feature delivery
-* Allows teams to adopt architecture patterns progressively 
-* Clear Boundaries in a Hybrid System
+* Enables continuous evolution
 
-**2. Clear Boundaries in a Hybrid System**
+**2. Hybrid Architecture**
 
-Even in a partially modularized system, boundaries are intentionally defined.
+A mix of modular and non-modular components is maintained intentionally.
 
-**Why:**
+Why:
 
-* Prepares the system for future modular extraction
-* Prevents deep coupling between features
-* Maintains architectural direction during transition
+* Reflects real migration states
+* Avoids premature complexity
+* Allows teams to adopt patterns progressively
+
+**3. Strong Boundaries (Even Before Full Modularity)**
+Clear separation between layers and responsibilities is enforced early.
+
+Why:
+
+* Prevents deep coupling
+* Prepares for future modular extraction
+* Maintains long-term architectural direction
+
+## Scaling Strategy
+
+### Current State
+* 1 feature team (posts-list)
+* Core team managing shared layers
+* Hybrid modular architecture
+
+### Evolution Path
+
+**Step 1 — Expand Modularization**
+   Extract additional features into independent modules
+
+**Step 2 — Introduce Platform Layer**
+   Shared logic becomes platform-owned modules (UI, networking, data)
+
+**Step 3 — Enable Team Autonomy**
+   Teams own features end-to-end with minimal dependencies
+
+**Step 4 — Optimize Developer Experience**
+   Improve build performance, CI/CD, and tooling
 
 
-### Trade-offs Summary
+## What This Project Demonstrates
+* Architecture is a continuous process, not a one-time decision
+* Systems rarely start “clean” — they evolve into it
+* Trade-offs are more important than patterns
+* Scaling teams is as important as scaling code
 
-This project explicitly demonstrates that:
+## Engineering Impact
+This architecture is designed not only for scalability, but for measurable engineering improvements:
+- **Build performance**: Modularization enables incremental builds and reduces build times as the codebase grows
+- **Team velocity**: Independent feature modules reduce cross-team coordination overhead
+- **Code ownership**: Clear module boundaries improve ownership and accountability
+- **Risk reduction**: Changes are isolated within modules, reducing regression impact
 
-* Perfect architecture is rarely the starting point
-* Incremental improvement is more practical than full rewrites
-* Trade-offs are an essential part of system design
-* Architectural decisions must balance speed, scale, and maintainability
+These improvements are critical when scaling both the system and the organization.
 
-For detailed information on key architecture decisions, modularization strategy, data layer design, dependency injection, and trade-offs, see **[ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md)**.
+## Additional Resources
 
----
-## Scaling the System
+* Architecture decisions → **[ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md)**
+* Scaling details → **[SCALING_DETAILS.md](./SCALING_DETAILS.md)**
+* Project structure → **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**
+* System design guide → **[SYSTEM_DESIGN_GUIDE.md](./SYSTEM_DESIGN_GUIDE.md)**
 
-### Current State: Hybrid Architecture
-
-**Team Structure:**
-- 1 dedicated team → Posts List feature (modularized)
-- Core team → Owns domain, data, app layers
-- Total: Can scale to 3-5 teams with this foundation
-
-### Step 1: Expand Modularization
-* Gradually extract additional features into modules
-* Define stricter module boundaries
-### Step 2: Introduce Platform Layer
-* Shared components (UI, networking, data) become platform-owned modules
-* Clear ownership model per module
-### Step 3: Enable Team Autonomy
-* Teams own feature modules end-to-end
-* Reduced cross-team dependencies
-### Step 4: Improve Developer Experience
-* Optimized build and CI/CD pipelines
-* Standardized tooling and development practices
-
-For detailed information on system evolution, team scaling, feature expansion, and avoiding monolithic pitfalls, see **[SCALING_DETAILS.md](./SCALING_DETAILS.md)**.
-
----
-## Project Structure
-### Module Organization
-
-This project intentionally demonstrates a **hybrid modular architecture** to illustrate:
-- What proper modularization looks like
-- How legacy or non-modular code coexists during migrations
-- The trade-offs of partial refactoring in large systems
-- Gradual migration path from monolith → modular
-
-For detailed information on module organization, directory structure, and module dependencies, see **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**.
-
-## Backend (Mock Server)
-
-This repository includes a Node.js Express mock backend that simulates API endpoints for the News Feed application.
-
-### Backend Structure
-
-```
-mock-backend/
-├── server.js          → Express application setup
-├── routes/            → API route handlers
-├── middleware/        → Auth, logging, error handling
-├── models/            → Mock data models
-└── package.json       → Dependencies
-```
-
-### Supported Endpoints
-
-- `GET /api/posts` → Fetch posts with pagination
-- `GET /api/posts/:id` → Get post details
-- `POST /api/posts` → Create new post
-- `PUT /api/posts/:id` → Update post
-- `DELETE /api/posts/:id` → Delete post
-- `POST /api/posts/:id/interact` → Like, comment, share
-
-### Run the Backend Locally
-
-```bash
-# Navigate to mock-backend directory
-cd mock-backend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-**Note**: The Android app should point to this local backend URL in its configuration.
-
-### Backend Features
-- Mock data generation
-- Authentication
-- Error handling
-- Pagination support
-
----
-
-## Technology Stack
-Key technologies:
-- **Kotlin** with Jetpack Compose for modern declarative UI
-- **Hilt** for dependency injection
-- **Retrofit + Room** for network and local data management
-- **Paging 3** for efficient pagination
-- **Coroutines** for async operations
-- **ExoPlayer** for media playback
-
-All versions are defined in `gradle/libs.versions.toml` for centralized dependency management.
-
----
-
-## System Design Interview Guide
-
-For a detailed guide on how to approach system design interviews and apply these architectural patterns, see **[SYSTEM_DESIGN_GUIDE.md](./SYSTEM_DESIGN_GUIDE.md)**.
-
-This includes:
-- Requirements clarification framework
-- Architecture definition approach
-- Modularization strategy
-- Scaling considerations
-- Trade-offs discussion
-- How this project demonstrates these patterns 
+### Feedback
+I would appreciate feedback from engineers working on scalable systems.
+Open to discussions on trade-offs, architecture evolution, and system design decisions.
