@@ -162,10 +162,10 @@ These improvements are critical when scaling both the system and the organizatio
 
 ## Additional Resources
 
-* Architecture decisions → **[ARCHITECTURE_DECISIONS.md](./ARCHITECTURE_DECISIONS.md)**
-* Scaling details → **[SCALING_DETAILS.md](./SCALING_DETAILS.md)**
-* Project structure → **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)**
-* System design guide → **[SYSTEM_DESIGN_GUIDE.md](./SYSTEM_DESIGN_GUIDE.md)**
+* Architecture decisions → **[ARCHITECTURE_DECISIONS.md](Docs/Architecture/ARCHITECTURE_DECISIONS.md)**
+* Scaling details → **[SCALING_DETAILS.md](Docs/Architecture/SCALING_DETAILS.md)**
+* Project structure → **[PROJECT_STRUCTURE.md](Docs/Architecture/PROJECT_STRUCTURE.md)**
+* System design guide → **[SYSTEM_DESIGN_GUIDE.md](Docs/Architecture/SYSTEM_DESIGN_GUIDE.md)**
 
 ### Feedback
 I would appreciate feedback from engineers working on scalable systems.

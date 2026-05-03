@@ -1,8 +1,16 @@
 # Android
-/android-app/.gradle
-/android-app/build
-/android-app/.idea
-/android-app/local.properties
+.gradle/
+build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# IntelliJ/Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
 
 # Node / Express
 /mock-backend/node_modules
